@@ -18,18 +18,18 @@ class ViewController: UIViewController
         
         let loadBarButtonItem = UIBarButtonItem(
             title: "Load",
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(ViewController.loadImage))
         
         let resetBarButtonItem = UIBarButtonItem(
             title: "Reset",
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(ViewController.reset))
         
         let spacer = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace,
+            barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
             target: nil,
             action: nil)
         
@@ -44,9 +44,10 @@ class ViewController: UIViewController
     
     var accumulator = CIImageAccumulator(
         extent: CGRect(x: 0, y: 0, width: 640, height: 640),
-        format: kCIFormatARGB8)
+        format: CIFormat.ARGB8
+    )
     
-    let warpKernel = CIWarpKernel(string:
+    let warpKernel = CIWarpKernel(source:
         "kernel vec2 gooWarp(float radius, float force,  vec2 location, vec2 direction)" +
         "{ " +
         " float dist = distance(location, destCoord()); " +
@@ -67,15 +68,16 @@ class ViewController: UIViewController
     {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.darkGrayColor()
-        imageView.backgroundColor = UIColor.darkGrayColor()
+        view.backgroundColor = UIColor.darkGray
+        imageView.backgroundColor = UIColor.darkGray
     
         view.addSubview(imageView)
         view.addSubview(toolbar)
         
-        accumulator.setImage(mona)
         
-        imageView.image = accumulator.image()
+        accumulator?.setImage(mona)
+        
+        imageView.image = accumulator!.image()
     }
 
     // MARK: Layout
@@ -84,9 +86,9 @@ class ViewController: UIViewController
     {
         toolbar.frame = CGRect(
             x: 0,
-            y: view.frame.height - toolbar.intrinsicContentSize().height,
+            y: view.frame.height - toolbar.intrinsicContentSize.height,
             width: view.frame.width,
-            height: toolbar.intrinsicContentSize().height)
+            height: toolbar.intrinsicContentSize.height)
         
         imageView.frame = CGRect(
             x: 0,
@@ -94,52 +96,47 @@ class ViewController: UIViewController
             width: view.frame.width,
             height: view.frame.height -
                 topLayoutGuide.length -
-                toolbar.intrinsicContentSize().height - 10)
+                toolbar.intrinsicContentSize.height - 10)
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle
-    {
-        return .LightContent
-    }
     
     // MARK: Image loading
     
-    func loadImage()
+    @objc func loadImage()
     {
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
-        imagePicker.modalInPopover = false
-        imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+        imagePicker.isModalInPopover = false
+        imagePicker.sourceType = UIImagePickerController.SourceType.savedPhotosAlbum
         
-        presentViewController(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
     
     // MARL: Reset
     
-    func reset()
+    @objc func reset()
     {
-        accumulator.setImage(mona)
+        accumulator?.setImage(mona)
         
-        imageView.image = accumulator.image()
+        imageView.image = accumulator!.image()
     }
     
     // MARK: Touch handling
-  
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         guard let touch = touches.first,
-            coalescedTouches = event?.coalescedTouchesForTouch(touch)
-            where imageView.imageExtent.contains(touch.locationInView(imageView)) else
+            let coalescedTouches = event?.coalescedTouches(for: touch), imageView.imageExtent.contains(touch.location(in: imageView)) else
         {
             return
         }
         
         for coalescedTouch in coalescedTouches
         {
-            let locationInImageY = (imageView.frame.height - coalescedTouch.locationInView(imageView).y - imageView.imageExtent.origin.y) / imageView.imageScale
-            let locationInImageX = (coalescedTouch.locationInView(imageView).x - imageView.imageExtent.origin.x) / imageView.imageScale
+            let locationInImageY = (imageView.frame.height - coalescedTouch.location(in: imageView).y - imageView.imageExtent.origin.y) / imageView.imageScale
+            let locationInImageX = (coalescedTouch.location(in: imageView).x - imageView.imageExtent.origin.x) / imageView.imageScale
             
             let location = CIVector(
                 x: locationInImageX,
@@ -148,8 +145,8 @@ class ViewController: UIViewController
             let directionScale = 2 / imageView.imageScale
           
             let direction = CIVector(
-                x: (coalescedTouch.previousLocationInView(imageView).x - coalescedTouch.locationInView(imageView).x) * directionScale,
-                y: (coalescedTouch.locationInView(imageView).y - coalescedTouch.previousLocationInView(imageView).y) * directionScale)
+                x: (coalescedTouch.previousLocation(in: imageView).x - coalescedTouch.location(in: imageView).x) * directionScale,
+                y: (coalescedTouch.location(in: imageView).y - coalescedTouch.previousLocation(in: imageView).y) * directionScale)
           
             let r = max(mona.extent.width, mona.extent.height) / 10
             let radius: CGFloat
@@ -167,46 +164,47 @@ class ViewController: UIViewController
                 radius = (r / 2) + (r * normalisedForce)
             }
 
-            let arguments = [radius, force, location, direction]
+            let arguments = [radius, force, location, direction] as [Any]
             
-            let image = warpKernel.applyWithExtent(
-                accumulator.image().extent,
+            let image = warpKernel.apply(
+                extent: accumulator!.image().extent,
                 roiCallback:
                 {
                     (index, rect) in
                     return rect
-                },
-                inputImage: accumulator.image(),
+            },
+                image: accumulator!.image(),
                 arguments: arguments)
             
-            accumulator.setImage(image!)
+            accumulator!.setImage(image!)
         }
         
-        imageView.image = accumulator.image()
+        imageView.image = accumulator!.image()
     }
 }
 
 extension ViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate
-{
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
-    {
-        if let rawImage = info[UIImagePickerControllerOriginalImage] as? UIImage
-        {
-            let scale = 1280 / max(rawImage.size.width, rawImage.size.height)
+{    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            let scale = 1280 / max(image.size.width, image.size.height)
             
             mona = CIImage(
-                image: rawImage)!
-                .imageByApplyingFilter("CILanczosScaleTransform", withInputParameters: [kCIInputScaleKey: scale])
+                image: image)!
+                .applyingFilter("CILanczosScaleTransform", parameters: [kCIInputScaleKey: scale])
+            
+            
             
             accumulator = CIImageAccumulator(
                 extent: mona.extent,
-                format: kCIFormatARGB8)
+                format: CIFormat.ARGB8
+            )
             
-            accumulator.setImage(mona)
-            imageView.image = accumulator.image()
+            accumulator?.setImage(mona)
+            imageView.image = accumulator!.image()
         }
-        
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 

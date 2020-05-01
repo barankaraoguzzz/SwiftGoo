@@ -9,25 +9,25 @@
 /* Begin PBXBuildFile section */
 		3E72F6E81CBEC45800F75F00 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E72F6E71CBEC45800F75F00 /* screenshot.png */; };
 		3EC4FB621CBE62A200BC5949 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC4FB611CBE62A200BC5949 /* AppDelegate.swift */; };
-		3EC4FB641CBE62A200BC5949 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC4FB631CBE62A200BC5949 /* ViewController.swift */; };
 		3EC4FB671CBE62A200BC5949 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EC4FB651CBE62A200BC5949 /* Main.storyboard */; };
 		3EC4FB691CBE62A200BC5949 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC4FB681CBE62A200BC5949 /* Assets.xcassets */; };
 		3EC4FB6C1CBE62A200BC5949 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3EC4FB6A1CBE62A200BC5949 /* LaunchScreen.storyboard */; };
-		3EC4FB741CBE62F800BC5949 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC4FB731CBE62F800BC5949 /* ImageView.swift */; };
 		3EC4FB761CBE634700BC5949 /* monalisa.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3EC4FB751CBE634700BC5949 /* monalisa.jpg */; };
+		E078DE0E245C71D8001D9219 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E078DE0C245C71D8001D9219 /* ViewController.swift */; };
+		E078DE0F245C71D8001D9219 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E078DE0D245C71D8001D9219 /* ImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3E72F6E71CBEC45800F75F00 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		3EC4FB5E1CBE62A200BC5949 /* SwiftGoo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGoo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC4FB611CBE62A200BC5949 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3EC4FB631CBE62A200BC5949 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3EC4FB661CBE62A200BC5949 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3EC4FB681CBE62A200BC5949 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3EC4FB6B1CBE62A200BC5949 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3EC4FB6D1CBE62A200BC5949 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3EC4FB731CBE62F800BC5949 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		3EC4FB751CBE634700BC5949 /* monalisa.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = monalisa.jpg; sourceTree = "<group>"; };
+		E078DE0C245C71D8001D9219 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E078DE0D245C71D8001D9219 /* ImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,12 +63,12 @@
 				3EC4FB751CBE634700BC5949 /* monalisa.jpg */,
 				3E72F6E71CBEC45800F75F00 /* screenshot.png */,
 				3EC4FB611CBE62A200BC5949 /* AppDelegate.swift */,
-				3EC4FB631CBE62A200BC5949 /* ViewController.swift */,
+				E078DE0C245C71D8001D9219 /* ViewController.swift */,
+				E078DE0D245C71D8001D9219 /* ImageView.swift */,
 				3EC4FB651CBE62A200BC5949 /* Main.storyboard */,
 				3EC4FB681CBE62A200BC5949 /* Assets.xcassets */,
 				3EC4FB6A1CBE62A200BC5949 /* LaunchScreen.storyboard */,
 				3EC4FB6D1CBE62A200BC5949 /* Info.plist */,
-				3EC4FB731CBE62F800BC5949 /* ImageView.swift */,
 			);
 			path = SwiftGoo;
 			sourceTree = "<group>";
@@ -105,6 +105,7 @@
 				TargetAttributes = {
 					3EC4FB5D1CBE62A200BC5949 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = DSK2XHJ89P;
 					};
 				};
 			};
@@ -113,6 +114,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -146,8 +148,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3EC4FB741CBE62F800BC5949 /* ImageView.swift in Sources */,
-				3EC4FB641CBE62A200BC5949 /* ViewController.swift in Sources */,
+				E078DE0F245C71D8001D9219 /* ImageView.swift in Sources */,
+				E078DE0E245C71D8001D9219 /* ViewController.swift in Sources */,
 				3EC4FB621CBE62A200BC5949 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,10 +265,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = DSK2XHJ89P;
 				INFOPLIST_FILE = SwiftGoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.flexmonkey.SwiftGoo;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.flexmonkey.SwiftGo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -275,10 +279,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = DSK2XHJ89P;
 				INFOPLIST_FILE = SwiftGoo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.flexmonkey.SwiftGoo;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.flexmonkey.SwiftGo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

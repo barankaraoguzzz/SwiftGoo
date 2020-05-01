@@ -20,21 +20,21 @@ import GLKit
 
 class OpenGLImageView: GLKView
 {
-    let eaglContext = EAGLContext(API: .OpenGLES2)
+    let eaglContext = EAGLContext(api: .openGLES2)
     
     lazy var ciContext: CIContext =
     {
         [unowned self] in
         
-        return CIContext(EAGLContext: self.eaglContext,
-            options: [kCIContextWorkingColorSpace: NSNull()])
+        return CIContext(eaglContext: self.eaglContext!,
+                         options: [CIContextOption.workingColorSpace: NSNull()])
     }()
     
     override init(frame: CGRect)
     {
-        super.init(frame: frame, context: eaglContext)
+        super.init(frame: frame, context: eaglContext!)
     
-        context = self.eaglContext
+        context = self.eaglContext!
         delegate = self
     }
 
@@ -64,13 +64,13 @@ class OpenGLImageView: GLKView
         setNeedsDisplay()
     }
     
-    private (set) var imageExtent = CGRectZero
+    private (set) var imageExtent = CGRect.zero
     private (set) var imageScale = CGFloat(0)
 }
 
 extension OpenGLImageView: GLKViewDelegate
 {
-    func glkView(view: GLKView, drawInRect rect: CGRect)
+    func glkView(_ view: GLKView, drawIn rect: CGRect)
     {
         guard let image = image else
         {
@@ -78,26 +78,26 @@ extension OpenGLImageView: GLKViewDelegate
         }
    
         let targetRect = image.extent.aspectFitInRect(
-            target: CGRect(origin: CGPointZero,
+            target: CGRect(origin: CGPoint.zero,
                 size: CGSize(width: drawableWidth,
                     height: drawableHeight)))
         
         let ciBackgroundColor = CIColor(
-            color: backgroundColor ?? UIColor.whiteColor())
+            color: backgroundColor ?? UIColor.white)
         
-        ciContext.drawImage(CIImage(color: ciBackgroundColor),
-            inRect: CGRect(x: 0,
-                y: 0,
-                width: drawableWidth,
-                height: drawableHeight),
-            fromRect: CGRect(x: 0,
+        ciContext.draw(CIImage(color: ciBackgroundColor),
+                       in: CGRect(x: 0,
+                                  y: 0,
+                                  width: drawableWidth,
+                                  height: drawableHeight),
+                       from: CGRect(x: 0,
                 y: 0,
                 width: drawableWidth,
                 height: drawableHeight))
         
-        ciContext.drawImage(image,
-            inRect: targetRect,
-            fromRect: image.extent)
+        ciContext.draw(image,
+                       in: targetRect,
+                       from: image.extent)
         
         imageExtent = CGRect(x: targetRect.origin.x / contentScaleFactor,
                              y: targetRect.origin.y / contentScaleFactor,
@@ -110,7 +110,7 @@ extension OpenGLImageView: GLKViewDelegate
 
 extension CGRect
 {
-    func aspectFitInRect(target target: CGRect) -> CGRect
+    func aspectFitInRect(target: CGRect) -> CGRect
     {
         let scale: CGFloat =
         {
